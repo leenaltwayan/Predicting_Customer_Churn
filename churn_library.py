@@ -3,7 +3,7 @@
 Author: Leen
 Version: 0.1
 Date: 12/12/2021
-This module provides a set of functions that will predict customer churn, 
+This module provides a set of functions that will predict customer churn,
 guaranteeing readability and modularization
 '''
 
@@ -57,7 +57,7 @@ def perform_eda(df):
     '''
     try:
         assert isinstance(df, pd.DataFrame)
-        
+
         plt.figure(figsize=(20, 10))
         df['Churn'].hist()
         plt.savefig('images/eda/churn.png')
@@ -81,7 +81,7 @@ def perform_eda(df):
     except AssertionError as msg:
         print("The given path is not a string")
         print(msg)
-    except:
+    except BaseException:
         print("Exception in perform_eda")
 
 
@@ -94,7 +94,7 @@ def encoder_helper(df, category_lst, response):
             df: pandas dataframe
             category_lst: list of columns that contain
             categorical features
-            response: string of response name [optional argument 
+            response: string of response name [optional argument
             that could be used for naming variables or index y column]
 
     output:
@@ -176,7 +176,7 @@ def classification_report_image(y_train,
     output:
              None
     '''
-    
+
     try:
         assert isinstance(y_train, list)
         assert isinstance(y_test, list)
@@ -209,10 +209,11 @@ def classification_report_image(y_train,
                  'fontsize': 10}, fontproperties='monospace')  # approach improved by OP -> monospace!
         plt.axis('off')
         plt.savefig('images/results/logistic_regression_report.png')
-        
+
     except AssertionError as msg:
         print('one of the parameters is not a list')
         print(msg)
+
 
 def feature_importance_plot(model, X_data, output_pth):
     '''
@@ -228,9 +229,9 @@ def feature_importance_plot(model, X_data, output_pth):
     try:
         assert isinstance(X_data, pd.DataFrame)
         assert isinstance(output_pth, str)
-        #unsure how to check for model instance without specifiying if its logistic regression
-        #or Random Forest
-        
+        # unsure how to check for model instance without specifiying if its logistic regression
+        # or Random Forest
+
         # Calculate feature importances
         importances = model.best_estimator_.feature_importances_
         # Sort feature importances in descending order
@@ -253,10 +254,11 @@ def feature_importance_plot(model, X_data, output_pth):
         plt.xticks(range(X_data.shape[1]), names, rotation=90)
 
         plt.savefig(output_pth + '/feature_importance.png')
-        
+
     except AssertionError as msg:
         print('the parameters are incorrect types')
         print(msg)
+
 
 def train_models(X_train, X_test, y_train, y_test):
     '''
@@ -269,13 +271,13 @@ def train_models(X_train, X_test, y_train, y_test):
     output:
               None
     '''
-    
+
     try:
         assert isinstance(y_train, list)
         assert isinstance(y_test, list)
         assert isinstance(X_train, pd.Dataframe)
         assert isinstance(X_test, pd.DataFrame)
-        
+
         # grid search
         rfc = RandomForestClassifier(random_state=42)
         lrc = LogisticRegression()
@@ -314,9 +316,49 @@ def train_models(X_train, X_test, y_train, y_test):
         # save best model
         joblib.dump(cv_rfc.best_estimator_, './models/rfc_model.pkl')
         joblib.dump(lrc, './models/logistic_model.pkl')
-        
+
     except AssertionError as msg:
         print('Incorrect parameters: make sure X values are dataframes and Y values are a list')
         print(msg)
-    except:
+    except BaseException:
         print('Exception in Training function')
+
+
+if __name__ == "__main__":
+    
+    df = pd.read_csv("./data/bank_data.csv")
+    df['Churn'] = df['Attrition_Flag'].apply(lambda val: 0 if val == "Existing Customer" else 1)
+    pth = "./data/bank_data.csv"
+    
+    print(import_data(pth))
+    perform_eda(df)
+    
+    category_lst = ['Gender','Education_Level','Marital_Status',
+            'Income_Category','Card_Category']
+    response = ['Gender_Churn','Education_Level_Churn',
+            'Marital_Status_Churn','Income_Category_Churn', 'Card_Category_Churn']
+    encoded_df = encoder_helper(df, category_lst, response)
+
+    encoder_helper(df, category_lst, response)
+    print(encoded_df)
+    
+    y = df['Churn']
+    X = pd.DataFrame()
+    keep_cols = ['Customer_Age', 'Dependent_count', 'Months_on_book',
+             'Total_Relationship_Count', 'Months_Inactive_12_mon',
+             'Contacts_Count_12_mon', 'Credit_Limit', 'Total_Revolving_Bal',
+             'Avg_Open_To_Buy', 'Total_Amt_Chng_Q4_Q1', 'Total_Trans_Amt',
+             'Total_Trans_Ct', 'Total_Ct_Chng_Q4_Q1', 'Avg_Utilization_Ratio',
+             'Gender_Churn', 'Education_Level_Churn', 'Marital_Status_Churn', 
+             'Income_Category_Churn', 'Card_Category_Churn']
+    
+    X[keep_cols] = encoded_df[keep_cols]
+    print('y shape is: ', y.shape)
+    print(y.dtype)
+    print('X shape is: ', X.shape)
+    perform_feature_engineering(encoded_df, 'Churn')
+    
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size= 0.3, random_state=42) 
+    print(y_train.dtype)
+    print(y_test.dtype)
+    train_models(X_train, X_test, y_train, y_test)
