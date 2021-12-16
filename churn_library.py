@@ -8,6 +8,7 @@ guaranteeing readability and modularization
 '''
 
 # import libraries
+from sklearn import metrics
 from sklearn.metrics import plot_roc_curve, classification_report
 from sklearn.model_selection import GridSearchCV, train_test_split
 from sklearn.ensemble import RandomForestClassifier
@@ -103,7 +104,7 @@ def encoder_helper(df, category_lst, response):
     try:
         assert isinstance(category_lst, list)
         assert isinstance(response, list)
-        assert isinstance(df, pd.Dataframe)
+        assert isinstance(df, pd.DataFrame)
         i = 0
         for cat in category_lst:
             # encoded column
@@ -121,8 +122,9 @@ def encoder_helper(df, category_lst, response):
         print('the parameters are incorrect types')
         print(msg)
 
-    except BaseException:
+    except BaseException as msg:
         print('exception in encoder helper!')
+        print('the error in encoder helper is: ', msg)
 
 
 def perform_feature_engineering(df, response):
@@ -273,14 +275,12 @@ def train_models(X_train, X_test, y_train, y_test):
     '''
 
     try:
-        assert isinstance(y_train, list)
-        assert isinstance(y_test, list)
-        assert isinstance(X_train, pd.Dataframe)
+        assert isinstance(X_train, pd.DataFrame)
         assert isinstance(X_test, pd.DataFrame)
 
         # grid search
         rfc = RandomForestClassifier(random_state=42)
-        lrc = LogisticRegression()
+        lrc = LogisticRegression(solver='lbfgs', max_iter=1000)
         param_grid = {
             'n_estimators': [200, 500],
             'max_features': ['auto', 'sqrt'],
@@ -296,9 +296,12 @@ def train_models(X_train, X_test, y_train, y_test):
         y_test_preds_lr = lrc.predict(X_test)
 
         lrc_plot = plot_roc_curve(lrc, X_test, y_test)
-        # Not sure if this will work
-        lrc_plot.savefig('images/results/lr_roc_curve.png')
-        skplt.metrics.plot_roc_curve(lrc, X_test, y_test)
+        # # Not sure if this will work
+        # lrc_plot.savefig('images/results/lr_roc_curve.png')
+        print('X test and y test in train model: ')
+        print(X_test)
+        print(y_test)
+        plot_roc_curve(lrc, X_test, y_test)
         plt.savefig('images/results/lr_roc_auc.png')
 
         # plots
@@ -320,8 +323,9 @@ def train_models(X_train, X_test, y_train, y_test):
     except AssertionError as msg:
         print('Incorrect parameters: make sure X values are dataframes and Y values are a list')
         print(msg)
-    except BaseException:
+    except BaseException as err:
         print('Exception in Training function')
+        print(err)
 
 
 if __name__ == "__main__":
@@ -339,7 +343,6 @@ if __name__ == "__main__":
             'Marital_Status_Churn','Income_Category_Churn', 'Card_Category_Churn']
     encoded_df = encoder_helper(df, category_lst, response)
 
-    encoder_helper(df, category_lst, response)
     print(encoded_df)
     
     y = df['Churn']
