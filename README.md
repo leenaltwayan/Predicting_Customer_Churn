@@ -10,7 +10,7 @@ Here are the steps to running the files:
 
 1- install all needed libraries and packages. 
 You can install these packages using the following command:
-    **pip install scikit-learn==0.22 shap pylint autopep8 scikit-plot**
+    **pip install scikit-learn shap pylint autopep8 scikit-plot**
 
 2- Run the file *churn_library.py* using the following command:
     **ipython churn_library.py**
