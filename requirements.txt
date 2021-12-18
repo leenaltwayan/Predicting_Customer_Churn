@@ -1,0 +1,21 @@
+The required packages for this project are:
+
+1- Scikitplot, which can be installed by the following command: 
+
+pip install scikit-plot
+
+2- scikit-learn, which can be installed by the following command:
+
+pip install scikit-learn
+
+3- SHAP, which can be installed using: 
+
+pip install shap
+
+4- PyLint, which can be installed using: 
+pip install pylint
+
+
+**PLEASE RUN ALL PREVIOUS COMMANDS BEFORE RUNNING PROGRAM, AS MANY FUNCTIONS DEPEND ON THESE LIBRARIES**
+
+Thank you.
