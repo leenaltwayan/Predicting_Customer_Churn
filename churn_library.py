@@ -38,12 +38,11 @@ def import_data(pth):
         assert isinstance(pth, str)
         data = pd.read_csv(pth)
     except AssertionError as msg:
-        print("The given path is not a string")
-        print(msg)
+        print("in import_data: The given path is not a string")
 
     except FileNotFoundError as msg:
-        print("The given path could not be found")
-        print(msg)
+        print("in import_data: The given path could not be found")
+
     return data
 
 
@@ -80,11 +79,9 @@ def perform_eda(df):
         plt.savefig('images/eda/heat_map.png')
 
     except AssertionError as msg:
-        print("The given path is not a string")
-        print(msg)
-    except BaseException:
-        print("Exception in perform_eda")
-
+        print("in perform_eda: The given path is not a string")
+    except BaseException as msg:
+        print("Exception in perform_eda: ", msg)
 
 def encoder_helper(df, category_lst, response):
     '''
@@ -119,12 +116,10 @@ def encoder_helper(df, category_lst, response):
         return df
 
     except AssertionError as msg:
-        print('the parameters are incorrect types')
-        print(msg)
+        print('in encoder_helper: the parameters are incorrect types')
 
     except BaseException as msg:
-        print('exception in encoder helper!')
-        print('the error in encoder helper is: ', msg)
+        print('exception in encoder helper: ', msg)
 
 
 def perform_feature_engineering(df, response):
@@ -151,7 +146,7 @@ def perform_feature_engineering(df, response):
         return X_train, X_test, y_train, y_test
 
     except AssertionError as msg:
-        print('parameter types are incorrect')
+        print('in perform_feature_engineering: parameter types are incorrect')
         print(msg)
     except BaseException as msg:
         print('Exception in perform_feature_engineering')
@@ -321,11 +316,10 @@ def train_models(X_train, X_test, y_train, y_test):
         joblib.dump(lrc, './models/logistic_model.pkl')
 
     except AssertionError as msg:
-        print('Incorrect parameters: make sure X values are dataframes and Y values are a list')
+        print('in train_models: Incorrect parameters; make sure X values are dataframes and Y values are a list')
         print(msg)
     except BaseException as err:
-        print('Exception in Training function')
-        print(err)
+        print('Exception in Training function: ', err)
 
 
 if __name__ == "__main__":
