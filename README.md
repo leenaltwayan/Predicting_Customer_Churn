@@ -9,18 +9,18 @@ In this project i refactored the prototype code from the notebook to create prod
 **data**
    - bank_data.csv
 **images**
-   * eda *
+   * eda
       - churn_distribution.png
       - customer_age_distribution.png
       - heatmap.png
       - marital_status_distribution.png
       - total_transaction_distribution.png
-   * results *
+   * results
       - feature_importance.png
       - logistics_results.png
       - rf_results.png
       - roc_curve_result.png
-**logs** 
+**logs**
    - churn_library.log
 **models**
    - logistic_model.pkl
@@ -28,8 +28,7 @@ In this project i refactored the prototype code from the notebook to create prod
    - churn_library.py
    - churn_notebook.ipynb
    - churn_script_logging_and_tests.py
-README.md
-:x: modules needed to generate appropriate output.
+
 
 ## Running Files
 Here are the steps to running the files:
