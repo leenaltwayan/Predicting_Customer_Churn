@@ -66,18 +66,29 @@ def perform_eda(df):
 
         plt.figure(figsize=(20, 10))
         df['Churn'].hist()
+        plt.title("Customer Churn")
+        plt.ylabel('No. of Customers')
+        plt.xlabel('Churn Flag')
         plt.savefig('images/eda/churn.png')
 
         plt.figure(figsize=(20, 10))
         df['Customer_Age'].hist()
+        plt.title("Customer Age")
+        plt.ylabel('No. of Customers')
+        plt.xlabel('Age')
         plt.savefig('images/eda/customer_age.png')
 
         plt.figure(figsize=(20, 10))
         df.Marital_Status.value_counts('normalize').plot(kind='bar')
+        plt.title("Customer Marital Status")
+        plt.ylabel('%. of Customers')
+        plt.xlabel('Marital Status')
         plt.savefig('images/eda/marital_status.png')
 
         plt.figure(figsize=(20, 10))
         sns.distplot(df['Total_Trans_Ct'])
+        plt.ylabel('Density')
+        plt.xlabel('Total Transactions')
         plt.savefig('images/eda/total_trans_ct.png')
 
         plt.figure(figsize=(20, 10))
