@@ -8,21 +8,28 @@ In this project i refactored the prototype code from the notebook to create prod
 ## Files In The Repo: 
 **data**
    - bank_data.csv
+
 **images**
+
    * eda
       - churn_distribution.png
       - customer_age_distribution.png
       - heatmap.png
       - marital_status_distribution.png
       - total_transaction_distribution.png
+
    * results
       - feature_importance.png
       - logistics_results.png
       - rf_results.png
       - roc_curve_result.png
+
 **logs**
+
    - churn_library.log
+   - 
 **models**
+
    - logistic_model.pkl
    - rfc_model.pkl
    - churn_library.py
