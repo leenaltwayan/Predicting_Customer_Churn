@@ -2,7 +2,7 @@ root - INFO - Testing import_data: SUCCESS
 root - INFO - Testing import_data: SUCCESS
 root - ERROR - Testing import_data: The file doesn't appear to have rows and columns
 root - INFO - Testing perform_eda: SUCCESS
-root - ERROR - Testing perform_eda: Not a dataframe
+root - ERROR - Testing perform_eda: Empty or Non-existent dataframe
 root - INFO - Testing encoder_helper: SUCCESS
 root - ERROR - Testing encoder_helper: The given Dataframe doesn't appear to have rows and columns
 root - INFO - Testing perform_feature_engineering: SUCCESS

@@ -8,16 +8,15 @@ guaranteeing readability and modularization
 '''
 
 # import libraries
-from sklearn import metrics
-from sklearn.metrics import plot_roc_curve, classification_report
+from sklearn.metrics import classification_report, plot_roc_curve
 from sklearn.model_selection import GridSearchCV, train_test_split
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.linear_model import LogisticRegression
-from sklearn.preprocessing import normalize
+import os
+os.environ['QT_QPA_PLATFORM']='offscreen'
 import scikitplot as skplt
 import pandas as pd
 import numpy as np
-import shap
 import joblib
 import matplotlib.pyplot as plt
 import seaborn as sns
@@ -37,10 +36,10 @@ def import_data(pth):
     try:
         assert isinstance(pth, str)
         data = pd.read_csv(pth)
-    except AssertionError as msg:
+    except AssertionError:
         print("in import_data: The given path is not a string")
 
-    except FileNotFoundError as msg:
+    except FileNotFoundError:
         print("in import_data: The given path could not be found")
 
     return data
@@ -298,6 +297,7 @@ def train_models(X_train, X_test, y_train, y_test):
         print(y_test)
         plot_roc_curve(lrc, X_test, y_test)
         plt.savefig('images/results/lr_roc_auc.png')
+        feature_importance_plot(cv_rfc, X_train,'images/results/')
 
         # plots
         plt.figure(figsize=(15, 8))
@@ -320,6 +320,7 @@ def train_models(X_train, X_test, y_train, y_test):
         print(msg)
     except BaseException as err:
         print('Exception in Training function: ', err)
+        raise err
 
 
 if __name__ == "__main__":
@@ -359,3 +360,4 @@ if __name__ == "__main__":
     print(y_train.dtype)
     print(y_test.dtype)
     train_models(X_train, X_test, y_train, y_test)
+    
