@@ -27,7 +27,7 @@ In this project i refactored the prototype code from the notebook to create prod
 **logs**
 
    - churn_library.log
-   - 
+   
 **models**
 
    - logistic_model.pkl
